@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      /* Style for the smiley face */
+      #smiley {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100px;
+        height: 100px;
+        background-color: yellow;
+        border-radius: 50%;
+        box-shadow: 0 0 10px black;
+      }
+      
+      /* Style for the talk bubble */
+      #talk-bubble {
+        position: absolute;
+        display: none;
+        width: 100px;
+        height: 50px;
+        background-color: white;
+        border: 2px solid black;
+        border-radius: 10px;
+        box-shadow: 0 0 10px black;
+        text-align: center;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="smiley"></div>
+    <div id="talk-bubble"></div>
+    
+  <script>
+    var frames = [
+      {
+        "smiley": {
+          "x": 0,
+          "y": 0,
+          "width": 100,
+          "height": 100
+        },
+        "talkBubble": {
+          "text": "Hello",
+          "x": 110,
+          "y": 40
+        }
+      },
+      {
+        "smiley": {
+          "x": 50,
+          "y": 50,
+          "width": 100,
+          "height": 100
+        },
+        "talkBubble": {
+          "text": "How are you?",
+          "x": 180,
+          "y": 90
+        }
+      },
+      {
+        "smiley": {
+          "x": 100,
+          "y": 0,
+          "width": 100,
+          "height": 100
+        },
+        "talkBubble": {
+          "text": "Goodbye",
+          "x": 230,
+          "y": 30
+        }
+      }
+    ];
+    
+    function animate(frames, index) {
+      var frame = frames[index];
+      
+      var smiley = document.getElementById("smiley");
+      var talkBubble = document.getElementById("talk-bubble");
+      
+      // Set the position and size of the smiley face
+      smiley.style.left = frame.smiley.x + "px";
+      smiley.style.top = frame.smiley.y + "px";
+      smiley.style.width = frame.smiley.width + "px";
+      smiley.style.height = frame.smiley.height + "px";
+      
+      // Set the text and position of the talk bubble
+      talkBubble.innerHTML = frame.talkBubble.text;
+      talkBubble.style.left = frame.talkBubble.x + "px";
+      talkBubble.style.top = frame.talkBubble.y + "px";
+      
+      // Display the talk bubble
+      talkBubble.style.display = "block";
+      
+      // Increment the index for the next frame
+      index++;
+      
+      // If we've reached the end of the frames, start over from the beginning
+      if (index >= frames.length) {
+        index = 0;
+      }
+      
+      // Wait for 2 seconds before hiding the talk bubble and displaying the next frame
+      setTimeout(function() {
+        talkBubble.style.display = "none";
+        animate(frames, index);
+      }, 2000);
+    }
+    
+    // Start the animation
+    animate(frames, 0);
+    
+  </script>
+
+</body>
+</html>

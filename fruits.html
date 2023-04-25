@@ -1,0 +1,44 @@
+<html>
+<head>
+  <title>Bar Chart</title>
+</head>
+<body>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Bar Chart</h5>
+      <canvas id="chart" width="500" height="200"></canvas>
+    </div>
+  </div>
+  <script>
+
+    var canvas = document.getElementById("chart");
+
+    var ctx = canvas.getContext("2d");
+
+    canvas.width = 500;
+    canvas.height = 200;
+
+    var fruits = [
+    {name:"Apple", quantity:20, color:"red"},
+    {name:"Orange", quantity:10, color:"orange"}
+  ];
+
+    for (var i = 0; i < fruits.length; i++) {
+      var fruit = fruits[i];
+      var quantity = fruit.quantity;
+      var color = fruit.color;
+
+      var x = 50;
+      var y = 50 + i * 20;
+
+      ctx.fillStyle = color;
+      ctx.fillRect(x, y, 100, 20);
+
+      ctx.fillStyle = "black";
+      ctx.textBaseline = "middle";
+      ctx.textAlign = "center";
+      ctx.fillText(fruit.name + " (" + quantity + ")", x + 50, y + 10);
+    }
+  </script>
+</body>
+</html>
