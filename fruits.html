@@ -5,118 +5,89 @@
 </head>
 <body>
   <h3><center>Input the quantities below:</center></h3>
-  <label>Apple: <label>
+  <label>Apple: </label>
   <input id="apple" type="number">
   <br>
-  <label>Orange: <label>
+  <label>Orange: </label>
   <input id="orange" type="number">
   <br>
-  <label>Banana: <label>
+  <label>Banana: </label>
   <input id="banana" type="number">
   <br>
-  <label>Grapes:  <label>
+  <label>Grapes:  </label>
   <input id="grapes" type="number">
   <br>
-  <label>Strawberry: <label>
+  <label>Strawberry: </label>
   <input id="strawberry" type="number">
   <br>
   <button id="jsonBtn" >Click to show the chart</button> 
-  
-  <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+  <p id="jsontext"></p>
+  <canvas id="idCanvas" style="width:100%;max-width:800px;height:600px"></canvas>
+
   
   <script>
-    var apple = document.getElementById("apple").value;
-    var orange = document.getElementById("orange").value;
-    var banana = document.getElementById("banana").value;
-    var grapes = document.getElementById("grapes").value;
-    var strawberry = document.getElementById("strawberry").value;
+    document.addEventListener("DOMContentLoaded", function() {
+      var apple = document.getElementById("apple");
+      var orange = document.getElementById("orange");
+      var banana = document.getElementById("banana");
+      var grapes = document.getElementById("grapes");
+      var strawberry = document.getElementById("strawberry");
     
-    var xValues = ["Apple", "Orange", "Banana", "Grapes", "Strawberry"];
-    var yValues = [apple, orange, banana, grapes, strawberry];
-    
-    var barColors = ["red", "orange", "yellow", "purple", "pink"];
-    
-    var canvas = document.getElementById("myChart");
-    
-    // Create a Chart.js object
-    var chart = new Chart(canvas, {
-      type: "bar",
-      data: {
-        labels: xValues,
-        datasets: [{
-          backgroundColor: barColors,
-          data: yValues
-        }]
-      },
-      options: {
-        legend: {display: false},
-        title: {
-          display: true,
-          text: "Fruits quantity"
-        }
+      var jsonBtn = document.getElementById("jsonBtn");
+      var jsonText = document.getElementById("jsontext");
+      var myCanvas = document.getElementById('idCanvas');
+      var ctx = myCanvas.getContext('2d');
+      
+      jsonBtn.addEventListener("click", function(){
+        //store data in JavaScript object
+        var fruits = [
+          {name: "Apple", quantity: parseFloat(apple.value), color: "blue"},
+          {name: "Orange", quantity: parseFloat(orange.value), color: "#FF6A00"},
+          {name: "Banana", quantity: parseFloat(banana.value), color: "#FFD800"},
+          {name: "Grapes", quantity: parseFloat(grapes.value), color: "#57007F"},
+          {name: "Strawberry", quantity: parseFloat(strawberry.value), color: "pink"}
+        ];
+
+        //jsonText.innerHTML  = JSON.stringify(fruits);
+          
+        var barColors = ["red", "orange","yellow", "purple", "pink"]
+        
+        // set up chart dimensions
+        var chartWidth = myCanvas.width;
+        var chartHeight = myCanvas.height;
+        var chartMargin = 50;
+        var barSpacing = 30;
+        var barWidth = (chartWidth - 2 * chartMargin - (fruits.length - 1) * barSpacing) / fruits.length;
+        var maxQuantity = Math.max.apply(Math, fruits.map(function(fruit) { return fruit.quantity; }));
+
+        ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+
+        // draw chart axes
+        ctx.beginPath();
+        ctx.moveTo(chartMargin, chartMargin);
+        ctx.lineTo(chartMargin, chartHeight - chartMargin);
+        ctx.lineTo(chartWidth - chartMargin, chartHeight - chartMargin);
+        ctx.stroke();
+
+      // draw bars
+      for (var i = 0; i < fruits.length; i++) {
+        var x = chartMargin + i * (barWidth + barSpacing);
+        var y = chartHeight - chartMargin - fruits[i].quantity / maxQuantity * (chartHeight - 2 * chartMargin);
+
+        ctx.fillStyle = fruits[i].color;
+        ctx.fillRect(x, y, barWidth, chartHeight - chartMargin - y);
+        ctx.font = "10px Georgia";
+        ctx.fillStyle = "black";
+        ctx.fillText(fruits[i].quantity, x + barWidth / 2, y - 5);
+        ctx.fillText(fruits[i].name, x + barWidth / 2, chartHeight - chartMargin + 30);
       }
+
     });
+        
 
-    //-----------------------------------------------------
-    /*var fruits = [{name: "Apple", quantity:20, color: "#FF0000"},
-    {name: "Orange", quantity: 10, color: "#FF6A00"},
-    {name: "Banana", quantity: 15, color: "#FFD800"},
-    {name: "Grapes", quantity: 8, color: "#57007F"}],
-    {name: "Strawberry", quantity: 45, color: purple};
-
-
-
-function drawRectangles() {
-var canvas = document.getElementById('canvas');
-  if (canvas.getContext) {
-    var ctx = canvas.getContext('2d');
+  });
     
-    /
-    ctx.fillStyle = fruits[0].color;
-    ctx.fillRect(100, 100, fruits[0].quantity*50, 50);
-    ctx.font = "50px Georgia";
-    ctx.fillText(fruits[0].name ,1125, 150);	
-    ctx.fillStyle = barColors[0];
-    ctx.fillText(fruits[0].quantity, fruits[0].quantity*50, 150);
     
-    //Data for Orange - Quantity 10, color Orange
-    ctx.fillStyle = fruits[1].color;
-    ctx.fillRect (100,200, fruits[1].quantity*50, 50); 
-    ctx.font = "50px Georgia";
-    ctx.fillText(fruits[1].name, 1125, 250);
-    ctx.fillStyle = barColors[1];
-    ctx.fillText(fruits[1].quantity, fruits[1].quantity*50, 250);
-    
-    //Data for Banana - Quantity 15, color Yellow
-    ctx.fillStyle = fruits[2].color;
-    ctx.fillRect (100,300, fruits[2].quantity*50, 50);
-    ctx.font = "50px Georgia";
-    ctx.fillText(fruits[2].name, 1125, 350);
-    ctx.fillStyle = barColors[2];
-    ctx.fillText(fruits[2].quantity, fruits[2].quantity*50, 350);
-    
-    //Data for Kiwi - Quantity 3 - Color Green
-    ctx.fillStyle = fruits[3].color;
-    ctx.fillRect (100,400, fruits[3].quantity*50, 50);
-    ctx.font = "50px Georgia";
-    ctx.fillText(fruits[3].name, 1125, 450);
-    ctx.fillStyle = barColors[3];
-    ctx.fillText(fruits[3].quantity, fruits[3].quantity*50, 450);
-    
-    //Data for Strawberry - Quantity 5 - Color Blue
-    ctx.fillStyle = fruits[4].color;
-    ctx.fillRect (100,500, fruits[4].quantity*50, 50);
-    ctx.font = "50px Georgia";
-    ctx.fillText(fruits[4].name, 1125, 550);
-    ctx.fillStyle = barColors[4];
-    ctx.fillText(fruits[4].quantity, fruits[4].quantity*50, 550);	
-    
-
-  }
-} 
-*/
-    
-  
   </script> 
   
 </body>
