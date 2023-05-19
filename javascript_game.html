@@ -2,20 +2,21 @@
 <html>
 <head>
 	<title>My Cartoon</title>
-	<style>
+	<!-- <style>
 		canvas {
 			border: 1px solid black;
 		}
-	</style>
+	</style> -->
 </head>
 <body>
+	<button onclick="window.location.href='index.html';" style="font-size: 20px; background-color: skyblue;">Home</button>
 
+	<div style="padding: 20px;">
 	<canvas id="myCanvas" width="500" height="500"></canvas>
 	<script >
 		// Get the canvas element and its context
 		var canvas = document.getElementById("myCanvas");
 		var ctx = canvas.getContext("2d");
-
 
 
 		// // Set the background color
