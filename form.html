@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio</title>
+   <!-- Bootstrap CSS -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+
+
+  <style>
+    
+    body {
+    position: relative;
+    color: rgb(29, 88, 150);
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://i.pinimg.com/736x/fe/5c/41/fe5c419f1f8d4159bbd67b28e4c3c869.jpg');
+    background-size: cover;
+    opacity: 0.5; /* Opacity of the overlay */
+    z-index: -1;
+  }
+
+
+.container {
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.input-label {
+  font-weight: bold;
+}
+
+.result-label {
+  margin-top: 20px;
+  font-weight: bold;
+  color: #cf5010;
+}
+
+#conversionHistory li {
+  list-style-type: none; 
+  margin-bottom: 10px;
+  font-size: 20px;
+  border-radius: 5px;
+  color: #cf5010;
+}
+
+  </style>
+
+</head>
+
+<body>
+    <div class="container">
+      <h1>Weight Conversion Calculator</h1>
+      
+      <div class="form-group">
+        <label class="input-label">Enter Weight:</label>
+        <input type="text" id="weightInput" placeholder="Enter weight">
+      </div>
+      
+      <div class="form-group">
+        <label class="input-label">Conversion Direction:</label>
+        <input type="radio" id="kgToLbRadio" name="conversionDirection" value="kgToLb" checked>
+        <label for="kgToLbRadio">Kilograms to Pounds</label>
+        <input type="radio" id="lbToKgRadio" name="conversionDirection" value="lbToKg">
+        <label for="lbToKgRadio">Pounds to Kilograms</label>
+      </div>
+      
+      <button onclick="calculateWeightConversion()">Calculate</button>
+      <button onclick="resetForm()">Reset</button>
+      
+      <div class="form-group">
+        <label class="result-label" id="resultLabel"></label>
+      </div>
+      
+      <h3>Previous Entries:</h3>
+      <div id="conversionHistory"></div>
+      <button onclick="clearConversionHistory()">Clear History</button>
+
+    </div>
+    <script>
+
+      // Function to calculate weight conversion
+      function calculateWeightConversion() {
+        var weightInput = document.getElementById('weightInput');
+        var resultLabel = document.getElementById('resultLabel');
+        var conversionDirection = document.querySelector('input[name="conversionDirection"]:checked').value;
+
+
+        if (conversionDirection === 'kgToLb') {
+          var kilograms = parseFloat(weightInput.value);
+          if (!isNaN(kilograms)) {
+            var pounds = kilograms * 2.20462;
+            resultLabel.textContent = kilograms + ' kilograms = ' + pounds.toFixed(2) + ' pounds';
+          } else {
+            resultLabel.textContent = 'Invalid input. Please enter a valid weight.';
+          }
+        } else if (conversionDirection === 'lbToKg') {
+          var pounds = parseFloat(weightInput.value);
+          if (!isNaN(pounds)) {
+            var kilograms = pounds * 0.453592;
+            resultLabel.textContent = pounds + ' pounds = ' + kilograms.toFixed(2) + ' kilograms';
+          } else {
+            resultLabel.textContent = 'Invalid input. Please enter a valid weight.';
+          }
+        }
+        
+        saveConversionHistory();
+        displayConversionHistory();
+      }
+
+      
+      // Function to reset the form
+      function resetForm() {
+        document.getElementById('weightInput').value = '';
+        document.getElementById('resultLabel').textContent = '';
+      }
+      
+      
+      // Function to save the conversion history
+      function saveConversionHistory() {
+        var weightInput = document.getElementById('weightInput');
+        var resultLabel = document.getElementById('resultLabel');
+        var conversionDirection = document.querySelector('input[name="conversionDirection"]:checked').value;
+        var conversionHistory = JSON.parse(localStorage.getItem('conversionHistory')) || [];
+      
+        conversionHistory.push({
+          weightInput: weightInput.value,
+          resultLabel: resultLabel.textContent,
+          conversionDirection: conversionDirection
+        });
+      
+        localStorage.setItem('conversionHistory', JSON.stringify(conversionHistory));
+        displayConversionHistory();
+      }
+        
+  
+
+      // Function to display the conversion history
+      function displayConversionHistory() {
+        var conversionHistory = JSON.parse(localStorage.getItem('conversionHistory'));
+        var div = document.getElementById('conversionHistory');
+        div.innerHTML = '';
+      
+        if (conversionHistory && conversionHistory.length > 0) {
+          for (var i = conversionHistory.length - 1; i >= 0 && i >= conversionHistory.length - 10; i--) {
+            var li = document.createElement('li');
+            li.textContent =  conversionHistory[i].resultLabel;
+            div.appendChild(li);
+          }
+        } else {
+          var li = document.createElement('li');
+          li.textContent = 'No conversion history available.';
+          div.appendChild(li);
+        }
+      }
+
+      // Function to clear the conversion history
+      function clearConversionHistory() {
+        localStorage.removeItem('conversionHistory');
+        displayConversionHistory();
+      }
+
+      // Restore saved input value on page load
+      window.addEventListener('load', function() {
+        var weightInput = document.getElementById('weightInput');
+        weightInput.value = localStorage.getItem('weightInputValue') || '';
+        
+        // Save input value on change
+        weightInput.addEventListener('input', function() {
+          localStorage.setItem('weightInputValue', weightInput.value);
+        });
+      });
+    </script>
+
+  </body>
+  </html>  
