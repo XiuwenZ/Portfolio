@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Population of New York City Boroughs</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+</head>
+<body>
+
+    <button onclick="window.location.href='index.html';" style="font-size: 25px; background-color: skyblue; cursor: pointer; position: relative; left: 5px; top: 5px;">
+        Home
+      </button>
+
+<h1>Population of New York City Boroughs</h1>
+
+<div style ="width: 75%">
+  <canvas id="bar-chart" width="150px" height ="70px"></canvas>
+</div>
+
+<br>
+<br>
+<h1>GDP of New York City in the past decade</h1>
+<div style ="width: 60%">
+    <canvas id="line-chart" width="500" height="500"></canvas>
+  </div>
+
+
+<script>
+    var population = {
+      datasets: [{
+        data: [1446788, 2648452, 1638281, 2330295, 487155],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.7)', // Bronx
+          'rgba(54, 162, 235, 0.7)', // Brooklyn
+          'rgba(255, 206, 86, 0.7)', // Manhattan
+          'rgba(75, 192, 192, 0.7)', // Queens
+          'rgba(153, 102, 255, 0.7)' // Staten Island
+        ]
+      }],
+    
+      labels: [
+        'Bronx',
+        'Brooklyn',
+        'Manhattan',
+        'Queens',
+        'Staten Island'
+      ]
+    };
+    
+    var ctx = document.getElementById("bar-chart").getContext("2d");
+    var barChart = new Chart(ctx, {
+      type: "doughnut",
+      data: population,
+      options: {
+        title: {
+          text: "Population of New York City Boroughs (2022)",
+          display: true,
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+
+
+// line chart for trend of NYC GDP
+var gdpData = {
+    labels: ["2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"],
+    datasets: [{
+      label: "GDP (in billions)",
+      data: [1576, 1650, 1732, 1823, 1920, 2015, 2110, 1948, 2075, 2210],
+      backgroundColor: "rgba(54, 162, 235, 0.2)",
+      borderColor: "rgba(54, 162, 235, 1)",
+      borderWidth: 2,
+      pointBackgroundColor: "rgba(54, 162, 235, 1)",
+      pointRadius: 4,
+      pointHoverRadius: 6,
+      fill: true
+    }]
+  };
+  
+  var ctx = document.getElementById("line-chart").getContext("2d");
+  var lineChart = new Chart(ctx, {
+    type: "line",
+    data: gdpData,
+    options: {
+      title: {
+        text: "New York City GDP (2013-2022)",
+        display: true
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: function (value) {
+              return "$" + value + "B";
+            }
+          }
+        }
+      }
+    }
+  });
+  </script>
+  
+
+</body>
+</html>

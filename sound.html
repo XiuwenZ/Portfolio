@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sound Effect Machine</title>
+    <style>
+       
+        body {
+            text-align: center;
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+        }
+        
+        #background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://images.unsplash.com/photo-1445375011782-2384686778a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bXVzaWNhbCUyMGluc3RydW1lbnRzfGVufDB8fDB8fHww&w=1000&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.5; /* Adjust the opacity value as per your preference */
+            z-index: -1;
+        }
+        
+        
+        h1 {
+            margin-top: 30px;
+        }
+        
+        h2 {
+            margin-bottom: 30px;
+        }
+        
+        button {
+            background-color: rgb(101, 92, 18);
+            color: white;
+            font-size: 18px;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        button:hover {
+            background-color: #008080;
+        }
+        
+        button:focus {
+            outline: none;
+        }
+        
+        button:active {
+            background-color: #006666;
+        }
+    </style>
+</head>
+<body>
+    <div id="background-container"></div>
+    <button onclick="window.location.href='index.html';" style="font-size: 25px; background-color: skyblue; cursor: pointer; position: relative; left: 5px; top: 5px;">
+        Home
+      </button>
+
+    <h1>Welcome to the sound machine</h1>
+    <h2>Listen to what each instrument sounds like</h2>
+    <audio id="guitar_sound" src="sounds/smooth-ac-guitar-loop-93bpm-137706.mp3" type="audio/mpeg"></audio>
+    <audio id="piano_sound" src="sounds/piano.mp3" type="audio/mpeg"></audio> 
+    <audio id="violin_sound" src="sounds/violin.mp3" type="audio/mpeg"></audio> 
+    <audio id="flute_sound" src="sounds/flute.mp3" type="audio/mpeg"></audio> 
+    <audio id="drum_sound" src="sounds/drum.mp3" type="audio/mpeg"></audio> 
+
+    <button onclick="playGuitarAudio()">Guitar</button>
+    <button onclick="playPianoAudio()">Piano</button>
+    <button onclick="playViolinAudio()">Violin</button> 
+    <button onclick="playFluteAudio()">Flute</button> 
+    <button onclick="playDrumAudio()">Drum</button> 
+
+    <script>
+        function playGuitarAudio() {
+            var guitar = document.getElementById('guitar_sound');
+            guitar.play();
+        }
+        
+        function playPianoAudio() {
+            var piano = document.getElementById('piano_sound');
+            piano.play();
+        }
+        
+        function playViolinAudio() {
+            var violin = document.getElementById('violin_sound');
+            violin.play();
+        }
+        
+        function playFluteAudio() {
+            var flute = document.getElementById('flute_sound');
+            flute.play();
+        }
+        
+        function playDrumAudio() {
+            var drum = document.getElementById('drum_sound');
+            drum.play();
+        }
+    </script>
+</body>
+</html>
